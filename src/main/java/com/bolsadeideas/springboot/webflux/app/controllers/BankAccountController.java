@@ -15,8 +15,6 @@ public class BankAccountController
     @Autowired
     private BankAccountDao daoC;
 
-    private final String messageOk = "";
-
     @Autowired
     private ReactiveMongoTemplate mongoTemplate;
 

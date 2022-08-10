@@ -22,6 +22,8 @@ public class BankAccountRestController
 	@Autowired
 	private ReactiveMongoTemplate mongoTemplate;
 
+	private final String messageOk = "";
+
 	private BankAccountController cControl = new BankAccountController();
 
 	private static final Logger log = LoggerFactory.getLogger(BankAccountRestController.class);

@@ -1,7 +1,9 @@
 package com.bolsadeideas.springboot.webflux.app.controllers;
 
 import com.bolsadeideas.springboot.webflux.app.models.dao.BankAccountDao;
+import com.bolsadeideas.springboot.webflux.app.models.dao.MovementDao;
 import com.bolsadeideas.springboot.webflux.app.models.documents.BankAccount;
+import com.bolsadeideas.springboot.webflux.app.models.documents.Movement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,44 +16,44 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/apis")
-public class BankAccountRestController
+public class MovementRestController
 {
 	@Autowired
-	private BankAccountDao dao;
+	private MovementDao dao;
 
 	@Autowired
 	private ReactiveMongoTemplate mongoTemplate;
 
 	private final String messageOk = "";
 
-	private BankAccountController cControl = new BankAccountController();
+	private MovementController cControl = new MovementController();
 
-	private static final Logger log = LoggerFactory.getLogger(BankAccountRestController.class);
+	private static final Logger log = LoggerFactory.getLogger(MovementRestController.class);
 
 	@GetMapping("showPersonalBankAccounts")
-	public Flux<BankAccount> showPersonalBankAccounts(){
+	public Flux<Movement> showPersonalBankAccounts(){
 
-		Flux<BankAccount> productos = dao.findAll()
-				.map(producto -> {
-					producto.setName(producto.getName().toUpperCase());
-					return producto;
+		Flux<Movement> movements = dao.findAll()
+				.map(c -> {
+					c.setAccountNumber(c.getAccountNumber());
+					return c;
 				})
-				.doOnNext(prod -> log.info(prod.getName()));
+				.doOnNext(c -> log.info(c.getAccountNumber()));
 
-		return productos;
+		return movements;
 	}
 
 	@GetMapping("showPersonalBankAccount/{id}")
-	public Mono<BankAccount> showPersonalBankAccount(@PathVariable String id)
+	public Mono<Movement> showPersonalBankAccount(@PathVariable String id)
 	{
-		Flux<BankAccount> productos = dao.findAll();
+		Flux<Movement> movements = dao.findAll();
 		
-		Mono<BankAccount> producto = productos
+		Mono<Movement> mov = movements
 				.filter(p -> p.getId().equals(id))
 				.next()
-				.doOnNext(prod -> log.info(prod.getName()));
+				.doOnNext(c -> log.info(c.getAccountNumber()));
 				
-		return producto;
+		return mov;
 	}
 
 	@GetMapping("showPersonalBankAccountByClient/{clientId}")
@@ -61,34 +63,36 @@ public class BankAccountRestController
 		return mongoTemplate.find(query, BankAccount.class).next();
 	}
 
-	@PutMapping("insertPersonalAccount/{id}/{nombre}/{tipoCuentaBancaria}/{clienteId}/{typeClient}")
+	@PutMapping("insertPersonalAccount/{id}/{numAccount}/{movType}/{currentAccount}/{movementAmount}/{finalAmount}")
 	public String insertAccount(@PathVariable String id,
-								@PathVariable String nombre,
-								@PathVariable String tipoCuentaBancaria,
-								@PathVariable String clienteId,
-								@PathVariable String typeClient)
+								@PathVariable String numAccount,
+								@PathVariable String movType,
+								@PathVariable Double currentAccount,
+								@PathVariable Double movementAmount,
+								@PathVariable Double finalAmount)
 	{
-		BankAccount bClient = new BankAccount(nombre, tipoCuentaBancaria, id, clienteId, typeClient);
-		cControl.saveAccount(bClient);
+		Movement movement = new Movement(id, numAccount, movType, currentAccount, movementAmount, finalAmount);
+		cControl.saveMovement(movement);
 		return "Sucess";
 	}
 
-	@PutMapping("updatePersonalAcocunt/{id}/{nombre}/{tipoCuentaBancaria}/{clienteId}/{typeClient}")
+	@PutMapping("updatePersonalAcocunt/{id}/{numAccount}/{movType}/{currentAccount}/{movementAmount}/{finalAmount}")
 	public String updateAcocunt(@PathVariable String id,
-								@PathVariable String nombre,
-								@PathVariable String tipoCuentaBancaria,
-								@PathVariable String clienteId,
-								@PathVariable String typeClient)
+								@PathVariable String numAccount,
+								@PathVariable String movType,
+								@PathVariable Double currentAccount,
+								@PathVariable Double movementAmount,
+								@PathVariable Double finalAmount)
 	{
-		BankAccount bClient = new BankAccount(nombre, tipoCuentaBancaria, id, clienteId, typeClient);
-		cControl.saveAccount(bClient);
+		Movement movement = new Movement(id, numAccount, movType, currentAccount, movementAmount, finalAmount);
+		cControl.saveMovement(movement);
 		return "Sucess";
 	}
 
 	@DeleteMapping("deletePersonalAccount/{id}")
 	public String deleteAccount(@PathVariable String id)
 	{
-		cControl.deleteAccount(id);
+		cControl.deleteMovement(id);
 		return "Sucess";
 	}
 
