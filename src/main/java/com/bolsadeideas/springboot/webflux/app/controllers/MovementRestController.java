@@ -63,8 +63,8 @@ public class MovementRestController
 		return mongoTemplate.find(query, BankAccount.class).next();
 	}
 
-	@PutMapping("insertPersonalAccount/{id}/{numAccount}/{movType}/{currentAccount}/{movementAmount}/{finalAmount}")
-	public String insertAccount(@PathVariable String id,
+	@PutMapping("insertMovement/{id}/{numAccount}/{movType}/{currentAccount}/{movementAmount}/{finalAmount}")
+	public String insertMovement(@PathVariable String id,
 								@PathVariable String numAccount,
 								@PathVariable String movType,
 								@PathVariable Double currentAccount,
@@ -76,8 +76,8 @@ public class MovementRestController
 		return "Sucess";
 	}
 
-	@PutMapping("updatePersonalAcocunt/{id}/{numAccount}/{movType}/{currentAccount}/{movementAmount}/{finalAmount}")
-	public String updateAcocunt(@PathVariable String id,
+	@PutMapping("updateMovement/{id}/{numAccount}/{movType}/{currentAccount}/{movementAmount}/{finalAmount}")
+	public String updateMovement(@PathVariable String id,
 								@PathVariable String numAccount,
 								@PathVariable String movType,
 								@PathVariable Double currentAccount,
@@ -89,8 +89,8 @@ public class MovementRestController
 		return "Sucess";
 	}
 
-	@DeleteMapping("deletePersonalAccount/{id}")
-	public String deleteAccount(@PathVariable String id)
+	@DeleteMapping("deleteMovement/{id}")
+	public String deleteMovement(@PathVariable String id)
 	{
 		cControl.deleteMovement(id);
 		return "Sucess";
