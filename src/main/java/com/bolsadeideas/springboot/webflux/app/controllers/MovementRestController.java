@@ -30,8 +30,8 @@ public class MovementRestController
 
 	private static final Logger log = LoggerFactory.getLogger(MovementRestController.class);
 
-	@GetMapping("showPersonalBankAccounts")
-	public Flux<Movement> showPersonalBankAccounts(){
+	@GetMapping("showMovements")
+	public Flux<Movement> showMovements(){
 
 		Flux<Movement> movements = dao.findAll()
 				.map(c -> {
@@ -43,15 +43,13 @@ public class MovementRestController
 		return movements;
 	}
 
-	@GetMapping("showPersonalBankAccount/{id}")
-	public Mono<Movement> showPersonalBankAccount(@PathVariable String id)
+	@GetMapping("showMovementsPerClient/{id}")
+	public Flux<Movement> showMovementsPerClient(@PathVariable String id)
 	{
 		Flux<Movement> movements = dao.findAll();
-		
-		Mono<Movement> mov = movements
-				.filter(p -> p.getId().equals(id))
-				.next()
-				.doOnNext(c -> log.info(c.getAccountNumber()));
+
+		Flux<Movement> mov = movements
+				.filter(p -> p.getId().equals(id));
 				
 		return mov;
 	}
@@ -63,28 +61,30 @@ public class MovementRestController
 		return mongoTemplate.find(query, BankAccount.class).next();
 	}
 
-	@PutMapping("insertMovement/{id}/{numAccount}/{movType}/{currentAccount}/{movementAmount}/{finalAmount}")
+	@PutMapping("insertMovement/{id}/{clientid}/{numAccount}/{movType}/{currentAccount}/{movementAmount}/{finalAmount}")
 	public String insertMovement(@PathVariable String id,
+								 @PathVariable String clientid,
 								@PathVariable String numAccount,
 								@PathVariable String movType,
 								@PathVariable Double currentAccount,
 								@PathVariable Double movementAmount,
 								@PathVariable Double finalAmount)
 	{
-		Movement movement = new Movement(id, numAccount, movType, currentAccount, movementAmount, finalAmount);
+		Movement movement = new Movement(id, clientid, numAccount, movType, currentAccount, movementAmount, finalAmount);
 		cControl.saveMovement(movement);
 		return "Sucess";
 	}
 
-	@PutMapping("updateMovement/{id}/{numAccount}/{movType}/{currentAccount}/{movementAmount}/{finalAmount}")
+	@PutMapping("updateMovement/{id}/{clientid}/{numAccount}/{movType}/{currentAccount}/{movementAmount}/{finalAmount}")
 	public String updateMovement(@PathVariable String id,
+								 @PathVariable String clientid,
 								@PathVariable String numAccount,
 								@PathVariable String movType,
 								@PathVariable Double currentAccount,
 								@PathVariable Double movementAmount,
 								@PathVariable Double finalAmount)
 	{
-		Movement movement = new Movement(id, numAccount, movType, currentAccount, movementAmount, finalAmount);
+		Movement movement = new Movement(id, clientid, numAccount, movType, currentAccount, movementAmount, finalAmount);
 		cControl.saveMovement(movement);
 		return "Sucess";
 	}

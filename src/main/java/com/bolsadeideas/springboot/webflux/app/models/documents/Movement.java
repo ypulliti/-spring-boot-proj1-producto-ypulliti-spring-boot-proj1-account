@@ -23,7 +23,10 @@ public class Movement
     private double movementAmount;
     private double finalAmount;
 
+    private String clientId;
+
     public Movement(     String id,
+                         String clientId,
                          String accountNumber,
                          String movementType,
                          double currentAmount,
@@ -31,6 +34,7 @@ public class Movement
                          double finalAmount )
     {
         this.id = id;
+        this.clientId = clientId;
         this.accountNumber = accountNumber;
         this.movementType = movementType;
         this.movementAmount = movementAmount;
