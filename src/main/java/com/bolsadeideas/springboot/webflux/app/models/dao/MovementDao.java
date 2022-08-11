@@ -6,6 +6,5 @@ import reactor.core.publisher.Mono;
 
 public interface MovementDao extends ReactiveMongoRepository<Movement, String> {
 
-    Mono<Movement> findByCode(String code);
 
 }

@@ -19,27 +19,31 @@ public class Movement
     private String accountNumber;
     private Date dateRegister;
     private String movementType;
-    private double currentAmount;
+
     private double movementAmount;
-    private double finalAmount;
+
+    private String accountType;
 
     private String clientId;
+    private String clientType;
 
     public Movement(     String id,
                          String clientId,
+                         String clientType,
                          String accountNumber,
+                         String accountType,
                          String movementType,
-                         double currentAmount,
-                         double movementAmount,
-                         double finalAmount )
+                         double movementAmount
+                         )
     {
         this.id = id;
         this.clientId = clientId;
         this.accountNumber = accountNumber;
         this.movementType = movementType;
         this.movementAmount = movementAmount;
-        this.finalAmount = finalAmount;
-        this.currentAmount = currentAmount;
+
+        this.accountType = accountType;
+        this.clientType = clientType;
     }
 
 }

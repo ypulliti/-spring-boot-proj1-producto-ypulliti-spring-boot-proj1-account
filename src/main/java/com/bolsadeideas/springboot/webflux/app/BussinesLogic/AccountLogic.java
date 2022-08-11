@@ -5,15 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
-import java.util.List;
-
+@Controller
 public class AccountLogic
 {
     @Autowired
-    private ReactiveMongoTemplate mongoTemplate;
-    private final String messageOk = "";
+    ReactiveMongoTemplate mongoTemplate;
+    public final String messageOk = "";
 
     public String InsertAccont(BankAccount bAccount)
     {
@@ -25,13 +27,11 @@ public class AccountLogic
 
         if (bAccount.getTypeClient().equals("personal"))
         {
-            switch (bAccount.getTypeAccount())
+            switch (bAccount.getPorductID())
             {
                 case "cuenta corriente":
                 case "ahorro":
                 case "plazo fijo":
-
-                    
 
                     if(queryResult.count().block() > 0)
                         result = "el cliente ya tiene una cuenta bancaria";
@@ -39,7 +39,7 @@ public class AccountLogic
                     break;
 
                 case "credito personal":
-                    Flux<BankAccount>queryR2 = queryResult.filter(c -> c.getTypeAccount() != "credito personal");
+                    Flux<BankAccount>queryR2 = queryResult.filter(c -> c.getPorductID() != "credito personal");
 
                     if (queryR2.count().block() > 0)
                         result = "el cliente ya tiene una cuenta bancaria";
@@ -52,7 +52,7 @@ public class AccountLogic
         }
         else
         {
-            switch (bAccount.getTypeAccount())
+            switch (bAccount.getPorductID())
             {
                 case "cuenta corriente":
                     // el cliente puede tener una o varias cuentas de este tipo

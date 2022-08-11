@@ -1,0 +1,74 @@
+{
+	"info": {
+		"_postman_id": "44232d14-ec68-41ce-8e34-b1ab7d1270f5",
+		"name": "Accounts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22634807"
+	},
+	"item": [
+		{
+			"name": "show Personal Accounts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/apis/showPersonalBankAccounts",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"apis",
+						"showPersonalBankAccounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show Accounts by client",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/apis/showPersonalBankAccountByClient/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"apis",
+						"showPersonalBankAccountByClient",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insert Account",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/apis/insertPersonalAccount/3/Test03/ahorro/1/personal/10000",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"apis",
+						"insertPersonalAccount",
+						"3",
+						"Test03",
+						"ahorro",
+						"1",
+						"personal",
+						"10000"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,49 @@
+{
+	"info": {
+		"_postman_id": "e4eb0843-d1b1-4af7-b51f-a008605b682b",
+		"name": "Movements",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22634807"
+	},
+	"item": [
+		{
+			"name": "show Movements",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/apis/showMovements",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"apis",
+						"showMovements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show Movements by Client",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/apis/showMovementsByClient/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"apis",
+						"showMovementsByClient",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

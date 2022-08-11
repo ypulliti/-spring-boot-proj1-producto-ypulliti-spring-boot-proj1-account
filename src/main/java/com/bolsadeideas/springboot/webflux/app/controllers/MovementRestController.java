@@ -43,50 +43,39 @@ public class MovementRestController
 		return movements;
 	}
 
-	@GetMapping("showMovementsPerClient/{id}")
-	public Flux<Movement> showMovementsPerClient(@PathVariable String id)
-	{
-		Flux<Movement> movements = dao.findAll();
-
-		Flux<Movement> mov = movements
-				.filter(p -> p.getId().equals(id));
-				
-		return mov;
-	}
-
-	@GetMapping("showPersonalBankAccountByClient/{clientId}")
-	public Mono<BankAccount> showPersonalBankAccountByClient(@PathVariable String clientId){
+	@GetMapping("showMovementsByClient/{clientId}")
+	public Mono<BankAccount> showMovementsByClient(@PathVariable String clientId){
 		Query query = new Query();
 		query.addCriteria(Criteria.where("clientId").is(clientId));
 		return mongoTemplate.find(query, BankAccount.class).next();
 	}
 
-	@PutMapping("insertMovement/{id}/{clientid}/{numAccount}/{movType}/{currentAccount}/{movementAmount}/{finalAmount}")
+	@PutMapping("insertMovement/{id}/{clientid}/{clientType}/{numAccount}/{typeAccount}/{movType}/{movementAmount}")
 	public String insertMovement(@PathVariable String id,
 								 @PathVariable String clientid,
+								 @PathVariable String clienttype,
 								@PathVariable String numAccount,
+								 @PathVariable String typeAccount,
 								@PathVariable String movType,
-								@PathVariable Double currentAccount,
-								@PathVariable Double movementAmount,
-								@PathVariable Double finalAmount)
+								@PathVariable Double movementAmount)
 	{
-		Movement movement = new Movement(id, clientid, numAccount, movType, currentAccount, movementAmount, finalAmount);
-		cControl.saveMovement(movement);
-		return "Sucess";
+		Movement movement = new Movement(id, clientid, clienttype, numAccount, typeAccount, movType, movementAmount);
+		String respuesta = cControl.saveMovement(movement);
+		return respuesta;
 	}
 
-	@PutMapping("updateMovement/{id}/{clientid}/{numAccount}/{movType}/{currentAccount}/{movementAmount}/{finalAmount}")
+	@PutMapping("updateMovement/{id}/{clientid}/{clientType}/{numAccount}/{typeAccount}/{movType}/{movementAmount}")
 	public String updateMovement(@PathVariable String id,
 								 @PathVariable String clientid,
+								 @PathVariable String clienttype,
 								@PathVariable String numAccount,
+								 @PathVariable String typeAccount,
 								@PathVariable String movType,
-								@PathVariable Double currentAccount,
-								@PathVariable Double movementAmount,
-								@PathVariable Double finalAmount)
+								@PathVariable Double movementAmount)
 	{
-		Movement movement = new Movement(id, clientid, numAccount, movType, currentAccount, movementAmount, finalAmount);
-		cControl.saveMovement(movement);
-		return "Sucess";
+		Movement movement = new Movement(id, clientid, clienttype, numAccount, typeAccount, movType, movementAmount);
+		String respuesta = cControl.saveMovement(movement);
+		return respuesta;
 	}
 
 	@DeleteMapping("deleteMovement/{id}")

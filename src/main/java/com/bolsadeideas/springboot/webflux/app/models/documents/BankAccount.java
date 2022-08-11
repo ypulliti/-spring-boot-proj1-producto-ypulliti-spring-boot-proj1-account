@@ -14,17 +14,27 @@ public class BankAccount
 {
 	@Id
 	private String id;
-	private String typeAccount;
+	private String porductID;
 	private String name;
 	private Date createAt;
 	private String clientId;
 	private String typeClient;
+	private double currentAmount;
+	private double finalAmount;
 
 
-	public BankAccount(String name, String typeProduct, String id, String clientId, String typeClient) {
+	public BankAccount(String name,
+					   String productID,
+					   String id,
+					   String clientId,
+					   String typeClient,
+					   double currentAmount,
+					   double finalAmount) {
 		this.name = name;
-		this.typeAccount = typeProduct;
+		this.porductID = productID;
 		this.clientId = clientId;
 		this.typeClient = typeClient;
+		this.finalAmount = finalAmount;
+		this.currentAmount = currentAmount;
 	}
 }

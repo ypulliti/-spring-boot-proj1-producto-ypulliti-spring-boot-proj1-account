@@ -61,28 +61,31 @@ public class BankAccountRestController
 		return mongoTemplate.find(query, BankAccount.class).next();
 	}
 
-	@PutMapping("insertPersonalAccount/{id}/{nombre}/{tipoCuentaBancaria}/{clienteId}/{typeClient}")
+	@PutMapping("insertPersonalAccount/{id}/{nombre}/{tipoCuentaBancaria}/{clienteId}/{typeClient}/{amount}")
 	public String insertAccount(@PathVariable String id,
 								@PathVariable String nombre,
 								@PathVariable String tipoCuentaBancaria,
 								@PathVariable String clienteId,
-								@PathVariable String typeClient)
+								@PathVariable String typeClient,
+								@PathVariable double amount)
 	{
-		BankAccount bClient = new BankAccount(nombre, tipoCuentaBancaria, id, clienteId, typeClient);
-		cControl.saveAccount(bClient);
-		return "Sucess";
+		BankAccount bClient = new BankAccount(nombre, tipoCuentaBancaria, id, clienteId, typeClient, amount, amount);
+		String respuesta = cControl.saveAccount(bClient);
+		return respuesta;
 	}
 
-	@PutMapping("updatePersonalAcocunt/{id}/{nombre}/{tipoCuentaBancaria}/{clienteId}/{typeClient}")
+	@PutMapping("updatePersonalAcocunt/{id}/{nombre}/{tipoCuentaBancaria}/{clienteId}/{typeClient}/{currentAmount}/{finalAmount}")
 	public String updateAcocunt(@PathVariable String id,
 								@PathVariable String nombre,
 								@PathVariable String tipoCuentaBancaria,
 								@PathVariable String clienteId,
-								@PathVariable String typeClient)
+								@PathVariable String typeClient,
+								@PathVariable double currentAmount,
+								@PathVariable double finalAmount)
 	{
-		BankAccount bClient = new BankAccount(nombre, tipoCuentaBancaria, id, clienteId, typeClient);
-		cControl.saveAccount(bClient);
-		return "Sucess";
+		BankAccount bClient = new BankAccount(nombre, tipoCuentaBancaria, id, clienteId, typeClient, currentAmount, finalAmount);
+		String respuesta = cControl.saveAccount(bClient);
+		return respuesta;
 	}
 
 	@DeleteMapping("deletePersonalAccount/{id}")

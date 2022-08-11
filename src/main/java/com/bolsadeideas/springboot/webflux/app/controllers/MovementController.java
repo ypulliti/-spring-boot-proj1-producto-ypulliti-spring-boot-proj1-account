@@ -1,5 +1,7 @@
 package com.bolsadeideas.springboot.webflux.app.controllers;
 
+import com.bolsadeideas.springboot.webflux.app.BussinesLogic.AccountLogic;
+import com.bolsadeideas.springboot.webflux.app.BussinesLogic.MovementLogic;
 import com.bolsadeideas.springboot.webflux.app.models.dao.BankAccountDao;
 import com.bolsadeideas.springboot.webflux.app.models.dao.MovementDao;
 import com.bolsadeideas.springboot.webflux.app.models.documents.BankAccount;
@@ -19,8 +21,7 @@ public class MovementController
 
     private final String messageOk = "";
 
-    @Autowired
-    private ReactiveMongoTemplate mongoTemplate;
+    private MovementLogic aclogic = new MovementLogic();
 
     private static final Logger log = LoggerFactory.getLogger(MovementController.class);
 
@@ -28,9 +29,17 @@ public class MovementController
         return this.daoC.findById(id);
     }
 
-    public void saveMovement(Movement movement)
+    public String saveMovement(Movement movement)
     {
-        daoC.save(movement).subscribe();
+        String respuesta = aclogic.InsertMovement(movement);
+
+        if (respuesta == aclogic.messageOk)
+            daoC.save(movement).subscribe();
+
+        if (respuesta.isEmpty())
+            return "Sucess";
+        else
+            return respuesta;
     }
     public void deleteMovement(final String id){
         daoC.deleteById(id).subscribe();
